@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+    .outer{
+  width:300px;
+  height:200px;
+  background:black;
+    }
+    .inner{
+width:200px;
+height:100px;
+background:red;
+    }
+    </style>
+</head>
+<body>
+    <div class="outer">
+         <div class="inner">
+        </div>
+    </div>
+   <script>
+   const outer = document.querySelector('.outer');
+const inner = document.querySelector('.inner');
+
+function onClick(e){
+    console.log(e.target.className);
+    console.log(e.currentTarget.className);
+
+    setTimeout(() => console.log('timeout'), 0);
+
+    requestIdleCallback(() => {
+        console.log('idle');
+    });
+
+    requestAnimationFrame(() => {
+        console.log('raf');
+    });
+
+    new Promise(resolve => {
+        console.log('resolve');
+        resolve();
+    }).then(() => {
+        console.log('promise');
+    });
+
+    console.log('finish');
+}
+
+outer.addEventListener('click', onClick);
+inner.addEventListener('click', onClick);
+   </script>
+</body>
+</html>

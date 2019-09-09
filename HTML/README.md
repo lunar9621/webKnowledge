@@ -154,6 +154,50 @@ JS 引擎则：解析和执行 javascript 来实现逻辑和控制 DOM 进行交
  - 共享
    - sessionStorage不能共享，localStorage在同源文档之间共享，cookie在同源且符合path规则的文档之间共享
 
+   ### 如何获取localStorage的剩余容量 
+
+ (function(){  
+    if(!window.localStorage) {  
+        console.log('浏览器不支持localStorage');  
+    }  
+    var size = 0;  
+    for(item in window.localStorage) {  
+        if(window.localStorage.hasOwnProperty(item)) {  
+            size += window.localStorage.getItem(item).length;  
+        }  
+    }  
+    console.log('当前localStorage剩余容量为' + (size / 1024).toFixed(2) + 'KB');  
+})()  
+
+
+   ### 如何获取localStorage最大容量  
+
+ (function() {  
+   if(!window.localStorage) {  
+   console.log('当前浏览器不支持localStorage!')  
+   }    var test = '0123456789';  
+   var add = function(num) {  
+     num += num;  
+     if(num.length == 10240) {  
+       test = num;  
+       return;  
+     }  
+     add(num);  
+   }  
+   add(test);  
+   var sum = test;  
+   var show = setInterval(function(){  
+      sum += test;  
+      try {  
+       window.localStorage.removeItem('test');  
+       window.localStorage.setItem('test', sum);  
+       console.log(sum.length / 1024 + 'KB');  
+      } catch(e) {  
+       console.log(sum.length / 1024 + 'KB超出最大限制');  
+       clearInterval(show);  
+      }  
+   }, 0.1)  
+ })()  
 
 
 ### html 中 title 属性和 alt 属性的区别？
